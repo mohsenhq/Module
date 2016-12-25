@@ -32,7 +32,6 @@ public class PostJsonTest {
         String sendString = "";
         char current;
         File file = new File("src/test/java/com/example/mahtak/testStrings");
-        System.out.println(file.getCanonicalPath());
         FileInputStream fis = new FileInputStream(file);
 
         while (fis.available() > 0) {
