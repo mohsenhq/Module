@@ -21,7 +21,7 @@ import static junit.framework.Assert.assertEquals;
  */
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21, manifest = "src/main/AndroidManifest.xml", packageName = "com.example.mahtak")
+@Config(constants = BuildConfig.class, sdk = 21, manifest = "Module/mahtak/src/main/AndroidManifest.xml", packageName = "com.example.mahtak")
 
 public class PostJsonTest {
 
@@ -48,7 +48,7 @@ public class PostJsonTest {
 
             //Receive
             //Get last data entered in database
-            URL url = new URL("http://46.101.146.4:8081");
+            URL url = new URL("http://198.143.180.135:8081");
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestProperty("Content-Type", "application/json"); // data type = json
             httpURLConnection.connect();

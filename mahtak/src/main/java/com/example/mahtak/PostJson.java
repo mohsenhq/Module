@@ -45,7 +45,7 @@ public class PostJson extends AsyncTask<String, String, String> {
          */
         String respond = null;
         try {
-            URL url = new URL("http://46.101.146.4/");
+            URL url = new URL("http://198.143.180.135:8082");
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setDoOutput(true);
             httpURLConnection.setRequestMethod("POST"); // set Post request

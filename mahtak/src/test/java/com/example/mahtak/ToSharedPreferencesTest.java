@@ -18,7 +18,7 @@ import static org.junit.Assert.assertNotNull;
  * Created by MahTak on 11/2/2016.
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21, manifest = "src/main/AndroidManifest.xml", packageName = "com.example.mahtak")
+@Config(constants = BuildConfig.class, sdk = 21, manifest = "Module/mahtak/src/main/AndroidManifest.xml")
 public class ToSharedPreferencesTest {
 
     ToSharedPreferences shp;
