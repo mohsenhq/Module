@@ -58,7 +58,7 @@ public class PostJsonTest {
             jsonObjectReceived.remove("_id");
 
             //Put all received data in one string
-            receivedString = receivedString + jsonObjectReceived.toString() + ";";
+            receivedString += jsonObjectReceived.toString() + ";";
         }
 
         //Check if send and recived data are the same
