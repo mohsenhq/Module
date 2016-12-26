@@ -13,7 +13,6 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.StringTokenizer;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -40,12 +39,14 @@ public class PostJsonTest {
             sendString = sendString + String.valueOf(current);
         }
         //Splits JsonObjects to send them one by one to server
-//        String[] strings = sendString.split(";");
-        StringTokenizer stringTokenizer = new StringTokenizer(sendString, ";");
+        String[] strings = sendString.split(";");
+
 
         String receivedString = "";
-        while (stringTokenizer.hasMoreTokens()) {
-            new PostJson().postData(stringTokenizer.nextToken());
+        for (String s : strings) {
+            new PostJson().postData(s);
+
+            Thread.sleep(2000);
 
             //Receive
             //Get last data entered in database
@@ -62,7 +63,6 @@ public class PostJsonTest {
             //Put all received data in one string
             receivedString += jsonObjectReceived.toString() + ";";
         }
-
 
         //Check if send and recived data are the same
         assertEquals("not the same", sendString, receivedString);
