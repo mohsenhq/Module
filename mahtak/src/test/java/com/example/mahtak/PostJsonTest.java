@@ -39,7 +39,7 @@ public class PostJsonTest {
             sendString = sendString + String.valueOf(current);
         }
         //Splits JsonObjects to send them one by one to server
-        String[] strings = sendString.split("-_-");
+        String[] strings = sendString.split("[;]");
 
         String receivedString = "";
         for (String s : strings) {
@@ -58,7 +58,7 @@ public class PostJsonTest {
             jsonObjectReceived.remove("_id");
 
             //Put all received data in one string
-            receivedString += jsonObjectReceived.toString() + "-_-";
+            receivedString += jsonObjectReceived.toString() + ";";
         }
 
         //Check if send and recived data are the same
