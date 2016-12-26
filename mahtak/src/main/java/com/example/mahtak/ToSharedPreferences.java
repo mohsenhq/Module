@@ -36,7 +36,7 @@ public class ToSharedPreferences {
             ed.putString("Brand", Build.BRAND);
             ed.putString("Manufacturer", Build.MANUFACTURER);
             ed.putString("SDK int", String.valueOf(Build.VERSION.SDK_INT));
-            ed.commit();
+            ed.apply();
 
         }
     }
@@ -55,7 +55,7 @@ public class ToSharedPreferences {
         SharedPreferences sharedPreferences = context.getSharedPreferences(fileKey, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
 
     }
 
@@ -96,7 +96,7 @@ public class ToSharedPreferences {
      */
     public void removeAll(Context context, String fileKey) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(fileKey, Context.MODE_PRIVATE);
-        sharedPreferences.edit().clear().commit();
+        sharedPreferences.edit().clear().apply();
 
     }
     /**
@@ -109,7 +109,7 @@ public class ToSharedPreferences {
         SharedPreferences sharedPreferences = context.getSharedPreferences("temp", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
 
     }
 }
