@@ -3,6 +3,8 @@ package com.example.mahtak;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 
 import java.util.Map;
@@ -29,8 +31,12 @@ public class ToSharedPreferences {
         SharedPreferences sharedPrefs = context.getSharedPreferences("deviceID", Context.MODE_PRIVATE);
         SharedPreferences.Editor ed;
         if (!sharedPrefs.contains("UUID")) {
+            WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            WifiInfo info = wifiManager.getConnectionInfo();
+            String macAddress = info.getMacAddress();
             ed = sharedPrefs.edit();
             String uniqueID = String.valueOf(UUID.randomUUID());
+            ed.putString("macAddress", macAddress);
             ed.putString("UUID", uniqueID);
             ed.putString("Model", Build.MODEL);
             ed.putString("Brand", Build.BRAND);
