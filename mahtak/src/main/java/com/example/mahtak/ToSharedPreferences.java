@@ -7,6 +7,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
@@ -42,6 +43,7 @@ public class ToSharedPreferences {
             ed.putString("Brand", Build.BRAND);
             ed.putString("Manufacturer", Build.MANUFACTURER);
             ed.putString("SDK int", String.valueOf(Build.VERSION.SDK_INT));
+            ed.putString("install date", String.valueOf(new Date((Long) System.currentTimeMillis())));
             ed.apply();
 
         }
