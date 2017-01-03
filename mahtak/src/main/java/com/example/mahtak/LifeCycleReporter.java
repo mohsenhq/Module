@@ -5,10 +5,16 @@ package com.example.mahtak;
  */
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
 
 import org.json.JSONObject;
 
@@ -118,6 +124,22 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
          */
 
         if (mainActivity.equals(activity)) {
+
+            if (ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) == 0) {
+
+
+                TelephonyManager tm = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
+                SHP.putStringInPreferences(mainActivity, "phone Number", tm.getLine1Number(), "temp");
+                SHP.putStringInPreferences(mainActivity, "Network Operator name", tm.getNetworkOperatorName(), "temp");
+                SHP.putStringInPreferences(mainActivity, "Sim Operator name", tm.getSimOperatorName(), "temp");
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    SHP.putStringInPreferences(mainActivity, "data network Type", String.valueOf(tm.getDataNetworkType()), "temp");
+                }
+                ConnectivityManager cm = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo netInfo = cm.getActiveNetworkInfo();
+                SHP.putStringInPreferences(mainActivity, "connection Type", netInfo.getTypeName(), "temp");
+            }
             createPostJsonBody();
 
             /**
