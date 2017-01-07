@@ -2,14 +2,16 @@ package com.example.mahtak;
 
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 /**
  * Created by MahTak on 1/1/2017.
  */
 
-public class LocationReporter implements LocationListener{
-
+public class LocationReporter implements LocationListener {
+    private LocationManager locationManager;
+    private LocationListener locationListener;
 
     @Override
     public void onLocationChanged(Location location) {
@@ -28,6 +30,7 @@ public class LocationReporter implements LocationListener{
 
     @Override
     public void onProviderDisabled(String provider) {
-
+//        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+//        startActivity(intent);
     }
 }
