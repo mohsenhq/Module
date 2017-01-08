@@ -125,21 +125,6 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
 
         if (mainActivity.equals(activity)) {
 
-            if (ContextCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) == 0) {
-
-
-                TelephonyManager tm = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
-                SHP.putStringInPreferences(mainActivity, "phone Number", tm.getLine1Number(), "temp");
-                SHP.putStringInPreferences(mainActivity, "Network Operator name", tm.getNetworkOperatorName(), "temp");
-                SHP.putStringInPreferences(mainActivity, "Sim Operator name", tm.getSimOperatorName(), "temp");
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    SHP.putStringInPreferences(mainActivity, "data network Type", String.valueOf(tm.getDataNetworkType()), "temp");
-                }
-                ConnectivityManager cm = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo netInfo = cm.getActiveNetworkInfo();
-                SHP.putStringInPreferences(mainActivity, "connection Type", netInfo.getTypeName(), "temp");
-            }
             createPostJsonBody();
 
             /**
@@ -158,6 +143,23 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
         /**
          * save both deviceID from shared preferences and temp to result JSONObject
          */
+
+        if (ContextCompat.checkSelfPermission(mainActivity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) == 0) {
+
+
+            TelephonyManager tm = (TelephonyManager) mainActivity.getSystemService(Context.TELEPHONY_SERVICE);
+            SHP.putStringInPreferences(mainActivity, "phone Number", tm.getLine1Number(), "temp");
+            SHP.putStringInPreferences(mainActivity, "Network Operator name", tm.getNetworkOperatorName(), "temp");
+            SHP.putStringInPreferences(mainActivity, "Sim Operator name", tm.getSimOperatorName(), "temp");
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                SHP.putStringInPreferences(mainActivity, "data network Type", String.valueOf(tm.getDataNetworkType()), "temp");
+            }
+            ConnectivityManager cm = (ConnectivityManager) mainActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            SHP.putStringInPreferences(mainActivity, "connection Type", netInfo.getTypeName(), "temp");
+        }
+
         Map lifeCycleID = new LinkedHashMap<>();
         lifeCycleID.putAll(SHP.getAll(mainActivity, "deviceID"));
         lifeCycleID.putAll(SHP.getAll(mainActivity, "temp"));

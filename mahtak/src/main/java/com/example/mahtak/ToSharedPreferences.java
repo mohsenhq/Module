@@ -17,6 +17,7 @@ import java.util.UUID;
 
 public class ToSharedPreferences {
 
+    Context maincontext;
     /**
      * Generates UUID an id that is unique for each installation and saves
      * the Model ,Brand ,Manufacturer and SDK int in first time app opens after
@@ -24,8 +25,8 @@ public class ToSharedPreferences {
      *
      * @param context the context of called class
      */
-    public static void generateUUID(Context context) {
-
+    public void generateUUID(Context context) {
+         maincontext=context;
         /**
          * saves UUID ,Model ,Brand ,Manufacturer and SDK int to the sharedPreferences by file key "deviceID" privately.
          */
@@ -113,8 +114,8 @@ public class ToSharedPreferences {
      * @param key     String to be saved
      * @param value   String of key param to be saved
      */
-    public void addCustomRecord(Context context,String key, String value) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("temp", Context.MODE_PRIVATE);
+    public void addCustomRecord(String key, String value) {
+        SharedPreferences sharedPreferences = maincontext.getSharedPreferences("temp", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, value);
         editor.apply();
