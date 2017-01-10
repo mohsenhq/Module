@@ -3,6 +3,8 @@ package com.example.mahtak;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -18,6 +20,7 @@ import java.util.UUID;
 public class ToSharedPreferences {
 
     Context maincontext;
+
     /**
      * Generates UUID an id that is unique for each installation and saves
      * the Model ,Brand ,Manufacturer and SDK int in first time app opens after
@@ -26,7 +29,7 @@ public class ToSharedPreferences {
      * @param context the context of called class
      */
     public void generateUUID(Context context) {
-         maincontext=context;
+        maincontext = context;
         /**
          * saves UUID ,Model ,Brand ,Manufacturer and SDK int to the sharedPreferences by file key "deviceID" privately.
          */
@@ -45,6 +48,17 @@ public class ToSharedPreferences {
             ed.putString("Manufacturer", Build.MANUFACTURER);
             ed.putString("SDK int", String.valueOf(Build.VERSION.SDK_INT));
             ed.putString("install date", String.valueOf(new Date((Long) System.currentTimeMillis())));
+
+            ed.putString("packageName", context.getPackageName());
+
+            PackageInfo pInfo = null;
+            try {
+                pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+                ed.putString("versuinName", pInfo.versionName);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+
             ed.apply();
 
         }
@@ -108,11 +122,12 @@ public class ToSharedPreferences {
         sharedPreferences.edit().clear().apply();
 
     }
+
     /**
      * Puts given string from custom action in shared preferences.
      *
-     * @param key     String to be saved
-     * @param value   String of key param to be saved
+     * @param key   String to be saved
+     * @param value String of key param to be saved
      */
     public void addCustomRecord(String key, String value) {
         SharedPreferences sharedPreferences = maincontext.getSharedPreferences("temp", Context.MODE_PRIVATE);
