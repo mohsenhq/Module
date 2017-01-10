@@ -20,7 +20,7 @@ public class LocationReporter {
     ToSharedPreferences SHP;
     public ArrayList<Location> locationList;
 
-    public LocationReporter(Context context) {
+    public LocationReporter(final Context context) {
         SHP = new ToSharedPreferences();
         locationList = new ArrayList<Location>();
         LocationManager locationManager = (LocationManager) context.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
@@ -28,6 +28,7 @@ public class LocationReporter {
             @Override
             public void onLocationChanged(Location location) {
                 locationList.add(location);
+                SHP.putStringInPreferences(context,"Locations",locationList.toString(),"temp");
             }
 
             @Override

@@ -145,7 +145,6 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
         /**
          * save both deviceID from shared preferences and temp to result JSONObject
          */
-        SHP.putStringInPreferences(mainActivity, "Locations", locationReporter.locationList.toString(), "temp");
         if (ContextCompat.checkSelfPermission(mainActivity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) == 0) {
 
 
@@ -174,7 +173,6 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
          * and if device is offline saves the data to shared preferences for next time bye file key "data"
          */
         if (new PostJson().isOnline(mainActivity)) {
-
             Map<String, ?> keys = SHP.getAll(mainActivity, "data");
             for (Map.Entry<String, ?> entry : keys.entrySet()) {
                 if (SHP.getStringFromPreferences(mainActivity, null, entry.getKey(), "data") != null) {
