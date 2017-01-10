@@ -38,6 +38,7 @@ import java.util.Map;
 public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks {
 
     ToSharedPreferences SHP;
+    LocationReporter locationReporter;
     /**
      * The Time map.
      */
@@ -70,6 +71,7 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
          */
         if (mainActivity == null) {
             mainActivity = activity;
+            locationReporter = new LocationReporter(mainActivity);
             if (SHP.getStringFromPreferences(mainActivity, "0", mainActivity.getClass().getSimpleName(), "temp") != "0") {
                 SHP.putStringInPreferences(mainActivity, "Terminated", "true", "temp");
                 createPostJsonBody();
@@ -143,7 +145,7 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
         /**
          * save both deviceID from shared preferences and temp to result JSONObject
          */
-
+        SHP.putStringInPreferences(mainActivity, "Locations", locationReporter.locationList.toString(), "temp");
         if (ContextCompat.checkSelfPermission(mainActivity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) == 0) {
 
 
