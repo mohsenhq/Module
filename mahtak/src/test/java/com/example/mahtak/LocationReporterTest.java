@@ -1,9 +1,9 @@
 package com.example.mahtak;
 
 import android.content.Context;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.provider.Settings;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +11,10 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowLocationManager;
+
+import static org.junit.Assert.assertEquals;
+import static org.robolectric.Shadows.shadowOf;
 
 
 /**
@@ -22,38 +26,42 @@ import org.robolectric.annotation.Config;
 
 public class LocationReporterTest {
 
+    LocationReporter lr;
+    LocationManager locationManager;
     Context context;
-    LocationReporter locationReporter;
-
     @Before
     public void setUp() throws Exception {
+        Settings.Secure.putString(RuntimeEnvironment.application.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED, "locationProvider");
+
         context = RuntimeEnvironment.application.getBaseContext();
-        locationReporter = new LocationReporter(context);
+        lr = new LocationReporter(context);
+    }
 
-
+    private Location location(String provider, double latitude, double longitude) {
+        Location location = new Location(provider);
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
+        location.setTime(System.currentTimeMillis());
+        return location;
     }
 
 
     @Test
     public void test() throws Exception {
         //Arrange
-        LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        lm.getAllProviders();
-        lm.addTestProvider("test", false, false, false, false, false, false, false, Criteria.POWER_LOW, Criteria.ACCURACY_FINE);
-        lm.setTestProviderEnabled("test", true);
-        Location location = new Location("test");
-        location.setLatitude(10.0);
-        location.setLongitude(20.0);
-        location.setTime(System.currentTimeMillis());
+        locationManager = (LocationManager) context.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        ShadowLocationManager shadowLocationManager = shadowOf(locationManager);
+        Location expectedLocation = location(LocationManager.GPS_PROVIDER, 12.0, 20.0);
 
-        lm.setTestProviderLocation("test", location);
 
         //Act
+        shadowLocationManager.setProviderEnabled(LocationManager.GPS_PROVIDER,true);
+        System.out.println(shadowLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER));
+        shadowLocationManager.simulateLocation(expectedLocation);
 
 
         //Assert
-        System.out.println(locationReporter.locationList.toString());
-//        Assert.assertEquals();
+        assertEquals(lr.locationList, expectedLocation);
     }
 
 }
