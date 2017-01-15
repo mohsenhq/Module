@@ -14,17 +14,31 @@ import java.util.ArrayList;
 /**
  * Created by MahTak on 1/1/2017.
  */
-
 public class LocationReporter {
 
+    /**
+     * Object of ToSharedPreferences for saving location list
+     */
     ToSharedPreferences SHP;
+    /**
+     * The list of Locations
+     */
     public ArrayList<Location> locationList;
 
+    /**
+     * Instantiates a new Location reporter.
+     *
+     * @param context the context
+     */
     public LocationReporter(final Context context) {
         SHP = new ToSharedPreferences();
         locationList = new ArrayList<Location>();
         LocationManager locationManager = (LocationManager) context.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new LocationListener() {
+            /**
+             * On location update save location to the sharedPreferences
+             * @param location, updated location
+             */
             @Override
             public void onLocationChanged(Location location) {
                 locationList.add(location);
@@ -56,6 +70,9 @@ public class LocationReporter {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+        /**
+         * Register Network and Gps provider to update location every 10 minutes
+         */
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10 * 60 * 1000, 0, locationListener);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10 * 60 * 1000, 0, locationListener);
 
