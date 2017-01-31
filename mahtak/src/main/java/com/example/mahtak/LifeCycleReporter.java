@@ -145,6 +145,7 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
         /**
          * save both deviceID from shared preferences and temp to result JSONObject
          */
+        SHP.putStringInPreferences(mainActivity, "endDate", String.valueOf(new Date((Long) System.currentTimeMillis())), "temp");
         if (ContextCompat.checkSelfPermission(mainActivity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) == 0) {
 
 

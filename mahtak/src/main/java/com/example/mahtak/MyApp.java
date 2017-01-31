@@ -23,8 +23,8 @@ import org.acra.sender.HttpSender;
                 ReportField.BUILD,
                 ReportField.STACK_TRACE
         },
-        mode = ReportingInteractionMode.SILENT
-)
+        mode = ReportingInteractionMode.SILENT,
+        formKey = "")
 public class MyApp extends Application {
 
         @Override

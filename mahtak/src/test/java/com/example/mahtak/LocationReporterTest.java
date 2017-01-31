@@ -40,9 +40,9 @@ public class LocationReporterTest {
     public void setUp() throws Exception {
         Context context= instance();
         lr = new LocationReporter(context);
-//        LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-
-        ShadowLocationManager shadowLocationManager = shadowOf(lr.locationManager);
+        LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        lm.setTestProviderEnabled("gps",true);
+        ShadowLocationManager shadowLocationManager = shadowOf(lm);
 //        System.out.println(lm.getAllProviders());
 
         System.out.println(shadowLocationManager.getAllProviders());
