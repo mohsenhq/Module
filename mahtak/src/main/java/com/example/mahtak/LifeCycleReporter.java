@@ -9,6 +9,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -103,6 +104,7 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
 
         String differenceString = String.valueOf(Long.valueOf(SHP.getStringFromPreferences(mainActivity, "0", activity.getClass().getSimpleName(), "temp")) + difference);
         SHP.putStringInPreferences(mainActivity, activity.getClass().getSimpleName(), differenceString, "temp");
+        SHP.putStringInPreferences(mainActivity, "endDate", String.valueOf(new Date((Long) System.currentTimeMillis())), "temp");
     }
 
     @Override
@@ -126,7 +128,7 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
          */
 
         if (mainActivity.equals(activity)) {
-
+            SHP.putStringInPreferences(mainActivity, "endDate", String.valueOf(new Date((Long) System.currentTimeMillis())), "temp");
             createPostJsonBody();
 
             /**
@@ -145,8 +147,7 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
         /**
          * save both deviceID from shared preferences and temp to result JSONObject
          */
-        SHP.putStringInPreferences(mainActivity, "endDate", String.valueOf(new Date((Long) System.currentTimeMillis())), "temp");
-        if (ContextCompat.checkSelfPermission(mainActivity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) == 0) {
+        if (ContextCompat.checkSelfPermission(mainActivity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
 
 
             TelephonyManager tm = (TelephonyManager) mainActivity.getSystemService(Context.TELEPHONY_SERVICE);
@@ -160,6 +161,9 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
             ConnectivityManager cm = (ConnectivityManager) mainActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             SHP.putStringInPreferences(mainActivity, "connection Type", netInfo.getTypeName(), "temp");
+        } else {
+//            ActivityCompat.requestPermissions((Activity) mainActivity,
+//                    new String[]{Manifest.permission.READ_PHONE_STATE}, 13);
         }
 
         Map lifeCycleID = new LinkedHashMap<>();
