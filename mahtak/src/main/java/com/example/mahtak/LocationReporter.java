@@ -11,7 +11,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -69,14 +68,16 @@ public class LocationReporter {
          * Register Network and Gps provider to update location every 10 minutes
          */
 
+        // If app have the permission requests location update otherwise asks for permission
         if (
                 ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                         ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // Contacts permissions have not been granted.
-            Log.e("PER F", "Contact permissions has NOT been granted. Requesting permissions.");
 
-            if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.WRITE_CONTACTS)) {
-                showMessageOKCancel("You need to allow access to Contacts", context,
+            // checks if never ask again is marked
+            boolean shouldAsk = ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.ACCESS_FINE_LOCATION);
+            if (shouldAsk) {
+                showMessageOKCancel("You need to allow access to Location", (Activity) context,
+                        // dialog for adding permission
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -84,23 +85,19 @@ public class LocationReporter {
 
                             }
                         });
-                return;
             }
-
-
             return;
         }
 
-        // Contact permissions have been granted. Show the contacts fragment.
-        Log.e("PER T", "Contact permissions have already been granted. Displaying contact details.");
+
+//        if (new PermissionChecker().PermissionChecker(Manifest.permission.ACCESS_FINE_LOCATION,context,"test")) {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10 * 60 * 1000, 0, locationListener);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10 * 60 * 1000, 0, locationListener);
-
-
     }
 
+    // dialog to show before asking the setting change
     private void showMessageOKCancel(String message, Context context, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder((Activity)context)
+        new AlertDialog.Builder(context)
                 .setMessage(message)
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Cancel", null)

@@ -7,14 +7,16 @@ package com.example.mahtak;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 
 import org.json.JSONObject;
@@ -72,6 +74,7 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
          */
         if (mainActivity == null) {
             mainActivity = activity;
+            getPhoneStateInpho();
             locationReporter = new LocationReporter(mainActivity);
             if (SHP.getStringFromPreferences(mainActivity, "0", mainActivity.getClass().getSimpleName(), "temp") != "0") {
                 SHP.putStringInPreferences(mainActivity, "Terminated", "true", "temp");
@@ -147,24 +150,7 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
         /**
          * save both deviceID from shared preferences and temp to result JSONObject
          */
-        if (ContextCompat.checkSelfPermission(mainActivity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
 
-
-            TelephonyManager tm = (TelephonyManager) mainActivity.getSystemService(Context.TELEPHONY_SERVICE);
-            SHP.putStringInPreferences(mainActivity, "phone Number", tm.getLine1Number(), "temp");
-            SHP.putStringInPreferences(mainActivity, "Network Operator name", tm.getNetworkOperatorName(), "temp");
-            SHP.putStringInPreferences(mainActivity, "Sim Operator name", tm.getSimOperatorName(), "temp");
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                SHP.putStringInPreferences(mainActivity, "data network Type", String.valueOf(tm.getDataNetworkType()), "temp");
-            }
-            ConnectivityManager cm = (ConnectivityManager) mainActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo netInfo = cm.getActiveNetworkInfo();
-            SHP.putStringInPreferences(mainActivity, "connection Type", netInfo.getTypeName(), "temp");
-        } else {
-//            ActivityCompat.requestPermissions((Activity) mainActivity,
-//                    new String[]{Manifest.permission.READ_PHONE_STATE}, 13);
-        }
 
         Map lifeCycleID = new LinkedHashMap<>();
         lifeCycleID.putAll(SHP.getAll(mainActivity, "deviceID"));
@@ -193,6 +179,51 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
             String s = String.valueOf(i);
             SHP.putStringInPreferences(mainActivity, s, result.toString(), "data");
         }
+    }
+
+
+    public void getPhoneStateInpho() {
+        // If app have the permission requests Read phone state update otherwise asks for permission
+        if (
+                ActivityCompat.checkSelfPermission(mainActivity, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+
+            // checks if never ask again is marked
+            boolean shouldAsk = ActivityCompat.shouldShowRequestPermissionRationale((Activity) mainActivity, Manifest.permission.READ_PHONE_STATE);
+            if (shouldAsk) {
+                showMessageOKCancel("You need to allow access to read Phone State", mainActivity,
+                        // dialog for adding permission
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions((Activity) mainActivity, new String[]{Manifest.permission.READ_PHONE_STATE}, 12);
+
+                            }
+                        });
+            }
+            return;
+        }
+        TelephonyManager tm = (TelephonyManager) mainActivity.getSystemService(Context.TELEPHONY_SERVICE);
+        SHP.putStringInPreferences(mainActivity, "phone Number", tm.getLine1Number(), "temp");
+        SHP.putStringInPreferences(mainActivity, "Network Operator name", tm.getNetworkOperatorName(), "temp");
+        SHP.putStringInPreferences(mainActivity, "Sim Operator name", tm.getSimOperatorName(), "temp");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            SHP.putStringInPreferences(mainActivity, "data network Type", String.valueOf(tm.getDataNetworkType()), "temp");
+        }
+        ConnectivityManager cm = (ConnectivityManager) mainActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        SHP.putStringInPreferences(mainActivity, "connection Type", netInfo.getTypeName(), "temp");
+
+    }
+
+    // dialog to show before asking the setting change
+    private void showMessageOKCancel(String message, Context context, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(context)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
     }
 
 }
