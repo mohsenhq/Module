@@ -73,7 +73,7 @@ public class LocationReporter {
                 ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                         ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            // checks if never ask again is marked
+            // checks if permission never ask again is marked
             boolean shouldAsk = ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.ACCESS_FINE_LOCATION);
             if (shouldAsk) {
                 showMessageOKCancel("You need to allow access to Location", (Activity) context,
@@ -90,7 +90,7 @@ public class LocationReporter {
         }
 
 
-//        if (new PermissionChecker().PermissionChecker(Manifest.permission.ACCESS_FINE_LOCATION,context,"test")) {
+//  requests for GPS and network base location every 10 minutes
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10 * 60 * 1000, 0, locationListener);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10 * 60 * 1000, 0, locationListener);
     }

@@ -74,8 +74,11 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
          */
         if (mainActivity == null) {
             mainActivity = activity;
+            // gets the phone state information
             getPhoneStateInpho();
+            // registers the location tracker class
             locationReporter = new LocationReporter(mainActivity);
+            // if temp data not cleared (sent) send it with terminated true flag
             if (SHP.getStringFromPreferences(mainActivity, "0", mainActivity.getClass().getSimpleName(), "temp") != "0") {
                 SHP.putStringInPreferences(mainActivity, "Terminated", "true", "temp");
                 createPostJsonBody();
@@ -106,7 +109,9 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
         Long difference = (System.currentTimeMillis() - timeMap.get(activity.getClass().getSimpleName())) / 1000;
 
         String differenceString = String.valueOf(Long.valueOf(SHP.getStringFromPreferences(mainActivity, "0", activity.getClass().getSimpleName(), "temp")) + difference);
+        // saves  paused activity duration
         SHP.putStringInPreferences(mainActivity, activity.getClass().getSimpleName(), differenceString, "temp");
+        // saves time of last paused activity
         SHP.putStringInPreferences(mainActivity, "endDate", String.valueOf(new Date((Long) System.currentTimeMillis())), "temp");
     }
 
