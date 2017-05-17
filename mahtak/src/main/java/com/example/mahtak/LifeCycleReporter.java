@@ -14,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -172,12 +173,12 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
             Map<String, ?> keys = SHP.getAll(mainActivity, "data");
             for (Map.Entry<String, ?> entry : keys.entrySet()) {
                 if (SHP.getStringFromPreferences(mainActivity, null, entry.getKey(), "data") != null) {
-                    new PostJson().execute(SHP.getStringFromPreferences(mainActivity, null, entry.getKey(), "data"));
+                    new PostJson().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,SHP.getStringFromPreferences(mainActivity, null, entry.getKey(), "data"));
                     SHP.putStringInPreferences(mainActivity, entry.getKey(), null, "data");
                 }
             }
 
-            new PostJson().execute(result.toString());
+            new PostJson().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,result.toString());
 
         } else {
             int i = SHP.getAll(mainActivity, "data").size() + 1;
