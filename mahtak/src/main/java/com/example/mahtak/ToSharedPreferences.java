@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Saves data to shared preferences privately that only this app can access.
+ * Saves data to shared preferences privately that only the app can access.
  */
 
 public class ToSharedPreferences {
@@ -23,10 +23,11 @@ public class ToSharedPreferences {
 
     /**
      * Generates UUID an id that is unique for each installation and saves
-     * the Model ,Brand ,Manufacturer and SDK int in first time app opens after
+     * the Model ,Brand ,Manufacturer and SDK int for the first time app opens after
      * installation.
      *
      * @param context the context of called class
+     * @maincontext gets the starting context to determine closing app.
      */
     public void generateUUID(Context context) {
         maincontext = context;
@@ -36,6 +37,7 @@ public class ToSharedPreferences {
         SharedPreferences sharedPrefs = context.getSharedPreferences("deviceID", Context.MODE_PRIVATE);
         SharedPreferences.Editor ed;
         if (!sharedPrefs.contains("UUID")) {
+
             WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
             WifiInfo info = wifiManager.getConnectionInfo();
             String macAddress = info.getMacAddress();
@@ -49,7 +51,7 @@ public class ToSharedPreferences {
             ed.putString("SDK int", String.valueOf(Build.VERSION.SDK_INT));
             ed.putString("install date", String.valueOf(new Date((Long) System.currentTimeMillis())));
 
-            ed.putString("packageName", context.getPackageName());
+            ed.putString("PACKAGE_NAME", context.getPackageName());
 
             PackageInfo pInfo = null;
             try {
