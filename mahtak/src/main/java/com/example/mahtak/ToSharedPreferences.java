@@ -129,12 +129,17 @@ public class ToSharedPreferences {
      * Puts given string from custom action in shared preferences.
      *
      * @param key   String to be saved
-     * @param value String of key param to be saved
      */
-    public void addCustomRecord(String key, String value) {
-        SharedPreferences sharedPreferences = maincontext.getSharedPreferences("temp", Context.MODE_PRIVATE);
+    public void addCustomRecord(Context context, String key) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("temp", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(key, value);
+        key = "CustomEvent_" + key;
+        if (!sharedPreferences.contains(key)) {
+            editor.putInt(key,1);
+        } else {
+            int v=sharedPreferences.getInt(key,0);
+            editor.putInt(key, v+1);
+        }
         editor.apply();
 
     }

@@ -11,7 +11,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
+import java.io.Console;
 import java.util.ArrayList;
 
 /**
@@ -37,6 +39,8 @@ public class LocationReporter {
         SHP = new ToSharedPreferences();
         locationList = new ArrayList<Location>();
         LocationManager locationManager = (LocationManager) context.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+//        locationList.add(locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER));
+//        Log.e("location",locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER).toString());
         LocationListener locationListener = new LocationListener() {
             /**
              * On location update save location to the sharedPreferences
@@ -91,8 +95,8 @@ public class LocationReporter {
 
 
 //  requests for GPS and network base location every 10 minutes
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10 * 60 * 1000, 0, locationListener);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10 * 60 * 1000, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
     }
 
     // dialog to show before asking the setting change

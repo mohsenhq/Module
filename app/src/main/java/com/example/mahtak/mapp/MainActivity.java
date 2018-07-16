@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.mahtak.LifeCycleReporter;
+import com.example.mahtak.ToSharedPreferences;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,4 +25,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void custom1(View v) {
+        ToSharedPreferences t = new ToSharedPreferences();
+        t.addCustomRecord(getApplicationContext(), "customButton1");
+    }
+
+    public void custom2(View v) {
+        ToSharedPreferences t = new ToSharedPreferences();
+        t.addCustomRecord(getApplicationContext(), "customButton2");
+    }
+
+    public void custom3(View v) {
+        ToSharedPreferences t = new ToSharedPreferences();
+        t.addCustomRecord(getApplicationContext(), "customButton3");
+    }
+
 }
