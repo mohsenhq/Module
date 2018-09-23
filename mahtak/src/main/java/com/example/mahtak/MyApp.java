@@ -9,7 +9,7 @@ import org.acra.annotation.ReportsCrashes;
 import org.acra.sender.HttpSender;
 
 
-@ReportsCrashes(formUri = "http://198.143.180.135:8082",
+@ReportsCrashes(formUri = "http://81.31.168.201:8082",
         reportType = HttpSender.Type.JSON,
         httpMethod = HttpSender.Method.POST,
 //        formUriBasicAuthLogin = "tubtakedstinumenterences",

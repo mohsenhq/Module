@@ -50,7 +50,7 @@ public class PostJsonTest {
 
             //Receive
             //Get last data entered in database
-            URL url = new URL("http://198.143.180.135:8081");
+            URL url = new URL("http://81.31.168.201:8081");
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestProperty("Content-Type", "application/json"); // data type = json
             httpURLConnection.connect();
