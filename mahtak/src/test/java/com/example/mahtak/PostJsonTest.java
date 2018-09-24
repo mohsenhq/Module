@@ -21,7 +21,7 @@ import static junit.framework.Assert.assertEquals;
  */
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21, manifest = "Module/mahtak/src/main/AndroidManifest.xml", packageName = "com.example.mahtak")
+@Config(constants = BuildConfig.class, sdk = 21, manifest = "src/main/AndroidManifest.xml", packageName = "com.example.mahtak")
 
 public class PostJsonTest {
 
