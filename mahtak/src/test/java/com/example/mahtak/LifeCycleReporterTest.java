@@ -25,7 +25,7 @@ import static org.junit.Assert.assertNotNull;
 public class LifeCycleReporterTest {
     MainA activity;
     ToSharedPreferences shp;
-    ActivityController<MainA> controller;
+    ActivityController controller;
 
     private ConnectivityManager connectivityManager;
     private ShadowConnectivityManager shadowConnectivityManager;
@@ -39,7 +39,7 @@ public class LifeCycleReporterTest {
 
         controller = Robolectric.buildActivity(MainA.class).create().start();
         shp = new ToSharedPreferences();
-        activity = controller.get();
+        activity = (MainA) controller.get();
 
     }
 
@@ -52,7 +52,7 @@ public class LifeCycleReporterTest {
     @Test
     public void onPause() throws Exception {
         controller.pause();
-        activity = controller.get();
+        activity = (MainA) controller.get();
 
 
         assertNotNull("not Null", shp.getAll(activity, "temp"));
@@ -69,7 +69,7 @@ public class LifeCycleReporterTest {
         controller.pause();
         System.out.println("data: " + String.valueOf(shp.getAll(activity, "data")));
         controller.destroy();
-        activity = controller.get();
+        activity = (MainA) controller.get();
         System.out.println("data: " + String.valueOf(shp.getAll(activity, "data")));
 
 
