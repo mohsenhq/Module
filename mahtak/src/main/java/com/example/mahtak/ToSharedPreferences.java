@@ -38,7 +38,7 @@ public class ToSharedPreferences {
         SharedPreferences.Editor ed;
         if (!sharedPrefs.contains("UUID")) {
 
-            WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            WifiManager wifiManager = (WifiManager)   context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             WifiInfo info = wifiManager.getConnectionInfo();
             String macAddress = info.getMacAddress();
             ed = sharedPrefs.edit();
