@@ -46,7 +46,7 @@ public class LifeCycleReporterTest {
     @Test
     public void onCreate() throws Exception {
         assertNotNull("not Null", shp.getStringFromPreferences(activity, null, "UUID", "deviceID"));
-        System.out.println("UUID: " + shp.getStringFromPreferences(activity, null, "UUID", "deviceID"));
+//        System.out.println("UUID: " + shp.getStringFromPreferences(activity, null, "UUID", "deviceID"));
     }
 
     @Test
@@ -56,7 +56,7 @@ public class LifeCycleReporterTest {
 
 
         assertNotNull("not Null", shp.getAll(activity, "temp"));
-        System.out.println("temp: " + String.valueOf(shp.getAll(activity, "temp")));
+//        System.out.println("temp: " + String.valueOf(shp.getAll(activity, "temp")));
 
     }
 
@@ -67,10 +67,10 @@ public class LifeCycleReporterTest {
 //        shadowConnectivityManager.setActiveNetworkInfo(networkInfo);
 
         controller.pause();
-        System.out.println("data: " + String.valueOf(shp.getAll(activity, "data")));
+//        System.out.println("data: " + String.valueOf(shp.getAll(activity, "data")));
         controller.destroy();
         activity = (MainA) controller.get();
-        System.out.println("data: " + String.valueOf(shp.getAll(activity, "data")));
+//        System.out.println("data: " + String.valueOf(shp.getAll(activity, "data")));
 
 
     }
