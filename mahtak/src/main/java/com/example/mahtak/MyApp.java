@@ -30,7 +30,7 @@ public class MyApp extends Application {
         @Override
         public void onCreate() {
                 super.onCreate();
-                System.out.println(this.getClass().getAnnotation(ReportsCrashes.class));
+//                System.out.println(this.getClass().getAnnotation(ReportsCrashes.class));
                 // The following line triggers the initialization of ACRA
                 ACRA.init(this);
         }
