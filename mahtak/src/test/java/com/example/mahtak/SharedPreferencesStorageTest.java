@@ -21,12 +21,12 @@
 //@Config(constants = BuildConfig.class, sdk = 21, manifest = "Module/mahtak/src/main/AndroidManifest.xml")
 //public class ToSharedPreferencesTest {
 //
-//    ToSharedPreferences shp;
+//    SharedPreferencesStorage shp;
 //    Application context;
 //
 //    @Before
 //    public void setUp() throws Exception {
-//        shp = new ToSharedPreferences();
+//        shp = new SharedPreferencesStorage();
 //        context = RuntimeEnvironment.application;
 //        shp.generateUUID(context);
 //    }

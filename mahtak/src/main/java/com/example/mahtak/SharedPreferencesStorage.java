@@ -17,7 +17,7 @@ import java.util.UUID;
  * Saves data to shared preferences privately that only the app can access.
  */
 
-public class ToSharedPreferences {
+public class SharedPreferencesStorage {
 
     Context maincontext;
 

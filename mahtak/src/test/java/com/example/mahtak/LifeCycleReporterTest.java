@@ -24,7 +24,7 @@
 //@Implements(LifeCycleReporter.class)
 //public class LifeCycleReporterTest {
 //    MainA activity;
-//    ToSharedPreferences shp;
+//    SharedPreferencesStorage shp;
 //    ActivityController controller;
 //
 //    private ConnectivityManager connectivityManager;
@@ -38,7 +38,7 @@
 ////        shadowOfActiveNetworkInfo = Shadows.shadowOf(connectivityManager.getActiveNetworkInfo());
 //
 //        controller = Robolectric.buildActivity(MainA.class).create().start();
-//        shp = new ToSharedPreferences();
+//        shp = new SharedPreferencesStorage();
 //        activity = (MainA) controller.get();
 //
 //    }

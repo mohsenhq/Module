@@ -41,7 +41,7 @@ import java.util.Map;
  */
 public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks {
 
-    ToSharedPreferences SHP;
+    SharedPreferencesStorage SHP;
     LocationReporter locationReporter;
     /**
      * The Time map.
@@ -68,7 +68,7 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
      */
     @Override
     public void onActivityStarted(Activity activity) {
-        SHP = new ToSharedPreferences();
+        SHP = new SharedPreferencesStorage();
 
         /**
          * If condition works when app installed and opened for the first time
@@ -84,7 +84,7 @@ public class LifeCycleReporter implements Application.ActivityLifecycleCallbacks
                 SHP.putStringInPreferences(mainActivity, "Terminated", "true", "temp");
                 createPostJsonBody();
             }
-            new ToSharedPreferences().generateUUID(activity);
+            new SharedPreferencesStorage().generateUUID(activity);
 
             SHP.putStringInPreferences(mainActivity, "date", String.valueOf(new Date((Long) System.currentTimeMillis())), "temp");
         }

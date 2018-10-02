@@ -11,9 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 
-import java.io.Console;
 import java.util.ArrayList;
 
 /**
@@ -22,9 +20,9 @@ import java.util.ArrayList;
 public class LocationReporter {
 
     /**
-     * Object of ToSharedPreferences for saving location list
+     * Object of SharedPreferencesStorage for saving location list
      */
-    ToSharedPreferences SHP;
+    SharedPreferencesStorage SHP;
     /**
      * The list of Locations
      */
@@ -36,7 +34,7 @@ public class LocationReporter {
      * @param context the context
      */
     public LocationReporter(final Context context) {
-        SHP = new ToSharedPreferences();
+        SHP = new SharedPreferencesStorage();
         locationList = new ArrayList<Location>();
         LocationManager locationManager = (LocationManager) context.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 //        locationList.add(locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER));
