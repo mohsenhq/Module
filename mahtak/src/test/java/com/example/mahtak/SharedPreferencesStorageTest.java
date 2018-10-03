@@ -15,9 +15,6 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -32,6 +29,7 @@ public class SharedPreferencesStorageTest {
     SharedPreferencesStorage shp;
     Application context;
     SharedPreferences sharedPrefs;
+
     @Before
     public void setUp() throws Exception {
         shp = new SharedPreferencesStorage();
@@ -42,20 +40,20 @@ public class SharedPreferencesStorageTest {
 
     @Test
     public void generateUUID() throws Exception {
-        assertFalse("UUID exists before creation",sharedPrefs.contains("UUID"));
+        assertFalse("UUID exists before creation", sharedPrefs.contains("UUID"));
         shp.generateUUID(context);
-        assertTrue("not UUID",sharedPrefs.contains("UUID"));
+        assertTrue("not UUID", sharedPrefs.contains("UUID"));
 
-        WifiManager wifiManager = (WifiManager)   context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = wifiManager.getConnectionInfo();
-        PackageInfo packageInfo=context.getPackageManager().getPackageInfo(context.getPackageName(),0);
+        PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 
-        assertNotNull("no macaddress",info.getMacAddress());
-        assertNotNull("no model",Build.MODEL);
-        assertNotNull("no brand",Build.BRAND);
-        assertNotNull("no manufacturer",Build.MANUFACTURER);
-        assertNotNull("no sdk int",Build.VERSION.SDK_INT);
-        assertNotNull("no package info",packageInfo);
+        assertNotNull("no macaddress", info.getMacAddress());
+        assertNotNull("no model", Build.MODEL);
+        assertNotNull("no brand", Build.BRAND);
+        assertNotNull("no manufacturer", Build.MANUFACTURER);
+        assertNotNull("no sdk int", Build.VERSION.SDK_INT);
+        assertNotNull("no package info", packageInfo);
 
         //Assert
         assertNotNull("not UUID", shp.getStringFromPreferences(context, null, "UUID", "deviceID"));
