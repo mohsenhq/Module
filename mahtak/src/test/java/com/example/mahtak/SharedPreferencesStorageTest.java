@@ -15,6 +15,10 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -39,7 +43,7 @@ public class SharedPreferencesStorageTest {
     }
 
     @Test
-    public void generateUUID() throws Exception {
+    public void generateUUIDTest() throws Exception {
         assertFalse("UUID exists before creation", sharedPrefs.contains("UUID"));
         shp.generateUUID(context);
         assertTrue("not UUID", sharedPrefs.contains("UUID"));
@@ -60,51 +64,81 @@ public class SharedPreferencesStorageTest {
     }
 
 
-//    @Test
-//    public void putGet() throws Exception {
-//        //Arrange
-//        String key = "key";
-//        String test = "1234 abc";
-//        String fileKey = "file";
-//        //Act
-//        shp.putStringInPreferences(context, key, test, fileKey);
-//
-//        //Assert
-//        assertEquals("not Equal", test, shp.getStringFromPreferences(context, null, key, fileKey));
-//    }
-//
-//    @Test
-//    public void getAll() {
-//        //Arrange
-//        String key = "key";
-//        String test = "1234 abc";
-//        String fileKey = "file";
-//        shp.putStringInPreferences(context, key, test, fileKey);
-//
-//        //Act
-//        Map<String, ?> a = shp.getAll(context, fileKey);
-//
-//        //Assert
-//        assertEquals("not the same", "{key=1234 abc}",a.toString());
-//    }
-//
-//    @Test
-//    public void removeAll() {
-//        //Arrange
-//        String key1 = "key1";
-//        String key2 = "key2";
-//        String value1 = "value1";
-//        String value2 = "value2";
-//        String fileKey = "file";
-//        shp.putStringInPreferences(context, key1, value1, fileKey);
-//        shp.putStringInPreferences(context, key2, value2, fileKey);
-//
-//        //Act
-//        shp.removeAll(context,fileKey);
-//
-//        //Assert
-//        assertEquals("not null","{}",shp.getAll(context,fileKey).toString());
-//    }
+    @Test
+    public void storagePutGetTest() throws Exception {
+        //Arrange
+        String key = "key";
+        String testString = "1234 abc";
+        String fileKey = "file";
+        String returnString = "";
+        //Act
+        shp.putStringInPreferences(context, key, testString, fileKey);
+        returnString = shp.getStringFromPreferences(context, "", key, fileKey);
+        //Assert
+        assertEquals("not Equal", testString, returnString);
+    }
+
+    @Test
+    public void getAll() {
+        //Arrange
+        String key1 = "key1";
+        String key2 = "key2";
+        String testString1 = "1234 abc";
+        String testString2 = "5678 efg";
+        Map<String, String> testMap = new LinkedHashMap<>();
+        String fileKey = "file";
 
 
+        //Act
+        shp.putStringInPreferences(context, key1, testString1, fileKey);
+        shp.putStringInPreferences(context, key2, testString2, fileKey);
+
+        testMap.put(key1, testString1);
+        testMap.put(key2, testString2);
+
+        Map<String, ?> returnMap = shp.getAll(context, fileKey);
+
+
+        //Assert
+        assertEquals("not the same", testMap, returnMap);
+    }
+
+    //
+    @Test
+    public void removeAllTest() {
+        //Arrange
+        String key1 = "key1";
+        String key2 = "key2";
+        String testString1 = "1234 abc";
+        String testString2 = "5678 efg";
+        String fileKey = "file";
+
+        //Act
+        shp.putStringInPreferences(context, key1, testString1, fileKey);
+        shp.putStringInPreferences(context, key2, testString2, fileKey);
+        shp.removeAll(context, fileKey);
+
+        //Assert
+        assertEquals("not removed all", "{}", shp.getAll(context, fileKey).toString());
+    }
+
+    @Test
+    public void addCustomRecordTest() {
+        //Arrange
+        String key1 = "key1";
+        int testInt = 2;
+        Map testMap = new LinkedHashMap();
+
+        //Act
+        shp.addCustomRecord(context, key1);
+        shp.addCustomRecord(context, key1);
+        String returnKey = "CustomEvent_" + key1;
+
+        testMap.put(returnKey, testInt);
+        Map returnString = shp.getAll(context, "temp");
+
+        //Assert
+        assertEquals("customRecord not added", testMap, returnString);
+
+    }
 }
