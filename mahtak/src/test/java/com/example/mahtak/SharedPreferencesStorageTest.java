@@ -27,7 +27,7 @@ import static org.junit.Assert.assertTrue;
  * Created by MahTak on 11/2/2016.
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest = Config.NONE)
+@Config(constants = BuildConfig.class, sdk = 21, packageName = "com.example.mahtak")
 public class SharedPreferencesStorageTest {
 
     SharedPreferencesStorage shp;

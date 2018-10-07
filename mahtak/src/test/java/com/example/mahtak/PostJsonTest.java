@@ -86,7 +86,7 @@ import java.net.URL;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest = Config.NONE)
+@Config(constants = BuildConfig.class, sdk = 21, packageName = "com.example.mahtak")
 public class PostJsonTest {
 
     @Test
@@ -118,7 +118,7 @@ public class PostJsonTest {
 
 
         //Check if send and recived data are the same
-        assertEquals("not the same",jsonObjectReceived.toString(),testJson.toString());
+        assertEquals("not the same", jsonObjectReceived.toString(), testJson.toString());
     }
 
 

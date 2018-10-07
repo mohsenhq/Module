@@ -19,14 +19,13 @@ import static org.junit.Assert.assertNotNull;
  * Created by MahTak on 11/9/2016.
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21, manifest = "src/main/AndroidManifest.xml", packageName = "com.example.mahtak")
+@Config(constants = BuildConfig.class, sdk = 21, packageName = "com.example.mahtak")
 @Implements(LifeCycleReporter.class)
 public class LifeCycleReporterTest {
-    MainA activity;
     SharedPreferencesStorage shp;
     ActivityController controller;
     Application context;
-    
+
     @Before
     public void setUp() throws Exception {
 
@@ -34,8 +33,6 @@ public class LifeCycleReporterTest {
         shp = new SharedPreferencesStorage();
 
         controller = Robolectric.buildActivity(MainA.class).create().start();
-
-//        activity = (MainA) controller.get();
 
     }
 
@@ -48,8 +45,6 @@ public class LifeCycleReporterTest {
     @Test
     public void onPause() throws Exception {
         controller.pause();
-        activity = (MainA) controller.get();
-
         assertNotNull("not Null", shp.getAll(context, "temp"));
     }
 
